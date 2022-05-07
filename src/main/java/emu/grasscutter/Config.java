@@ -94,6 +94,8 @@ public final class Config {
 
 		public GameRates getGameRates() { return Game; }
 
+		public boolean isDrop = false;
+
 		public static class GameRates {
 			public float ADVENTURE_EXP_RATE = 1.0f;
 			public float MORA_RATE = 1.0f;

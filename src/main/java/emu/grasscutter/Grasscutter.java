@@ -6,6 +6,8 @@ import java.io.FileWriter;
 import java.io.IOError;
 import java.net.InetSocketAddress;
 import java.util.Calendar;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 import emu.grasscutter.command.CommandMap;
@@ -52,6 +54,7 @@ public final class Grasscutter {
 	private static PluginManager pluginManager;
 
 	public static final Reflections reflector = new Reflections("emu.grasscutter");
+	static final List<Character> PREFIXES = Arrays.asList('/', '!');
 
 	static {
 		// Declare logback configuration.
@@ -221,6 +224,8 @@ public final class Grasscutter {
 
 			isLastInterrupted = false;
 			try {
+				if (PREFIXES.contains(input.charAt(0))) 
+					input = input.substring(1);
 				CommandMap.getInstance().invoke(null, null, input);
 			} catch (Exception e) {
 				Grasscutter.getLogger().error(language.Command_error, e);

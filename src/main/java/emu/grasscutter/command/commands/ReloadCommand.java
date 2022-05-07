@@ -5,6 +5,8 @@ import emu.grasscutter.command.Command;
 import emu.grasscutter.command.CommandHandler;
 import emu.grasscutter.game.player.Player;
 
+import emu.grasscutter.data.ResourceLoader;
+
 import java.util.List;
 
 @Command(label = "reload", usage = "reload",
@@ -20,6 +22,7 @@ public final class ReloadCommand implements CommandHandler {
         Grasscutter.getGameServer().getDropManager().load();
         Grasscutter.getGameServer().getShopManager().load();
         Grasscutter.getDispatchServer().loadQueries();
+        ResourceLoader.loadAll();
         CommandHandler.sendMessage(sender, Grasscutter.getLanguage().Reload_reload_done);
     }
 }

@@ -1,5 +1,6 @@
 package emu.grasscutter.game.drop;
 
+import com.fasterxml.jackson.databind.introspect.TypeResolutionContext.Empty;
 import com.google.gson.reflect.TypeToken;
 import emu.grasscutter.Grasscutter;
 import emu.grasscutter.data.GameData;
@@ -44,9 +45,18 @@ public class DropManager {
         try (FileReader fileReader = new FileReader(Grasscutter.getConfig().DATA_FOLDER + "Drop.json")) {
             getDropData().clear();
             List<DropInfo> banners = Grasscutter.getGsonFactory().fromJson(fileReader, TypeToken.getParameterized(Collection.class, DropInfo.class).getType());
+            List<DropData> emptyDropList = null;
+            for (DropInfo info: banners) {
+                if (info.getMonsterId() == -1) {
+                    emptyDropList = info.getDropDataList();
+                    break;
+                }
+            }
             if(banners.size() > 0) {
                 for (DropInfo di : banners) {
-                    getDropData().put(di.getMonsterId(), di.getDropDataList());
+                    if (Grasscutter.getConfig().getGameServerOptions().isDrop)
+                            getDropData().put(di.getMonsterId(), di.getDropDataList());
+                    else getDropData().put(di.getMonsterId(), emptyDropList);
                 }
                 Grasscutter.getLogger().info("Drop data successfully loaded.");
             } else {

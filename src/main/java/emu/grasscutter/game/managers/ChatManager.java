@@ -72,7 +72,7 @@ public class ChatManager {
 				
 		// Check if command
 		if (PREFIXES.contains(message.charAt(0))) {
-			CommandMap.getInstance().invoke(player, null, message);
+			CommandMap.getInstance().invoke(player, null, message.substring(1));
 			return;
 		}
 
